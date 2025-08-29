@@ -3,7 +3,7 @@ import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../components/Alert';
 function Appointments() {
-    
+
     const navigate = useNavigate();
     const [appointments, setAppointments] = useState([]);
     const [alert, setAlert] = useState(false);
@@ -34,30 +34,32 @@ function Appointments() {
                     Add Appointment
                 </button>
                 <h1 className="text-xl font-bold mb-4">Appointments</h1>
-                <table className="w-full border-collapse border">
-                    <thead>
-                        <tr className="bg-gray-100">
-                            <th className="border p-2">Title</th>
-                            <th className="border p-2">Description</th>
-                            <th className="border p-2">Scheduled On</th>
-                            <th className="border p-2">Status</th>
-                            <th className="border p-2">Patient</th>
-                            <th className="border p-2">Doctor</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {appointments.map(appointment => (
-                            <tr key={appointment.id}>
-                                <td className="border p-2">{appointment.title}</td>
-                                <td className="border p-2">{appointment.description}</td>
-                                <td className="border p-2">{new Date(appointment.scheduledOn).toLocaleDateString()}</td>
-                                <td className="border p-2">{appointment.statusId == 1 ? "Scheduled" : appointment.statusId == 2 ? "Completed" : "Cancelled"}</td>
-                                <td className="border p-2">{appointment?.patient?.name}</td>
-                                <td className="border p-2">{appointment?.doctor?.name}</td>
+                <div className="overflow-x-auto">
+                    <table className="min-w-full border border-gray-300">
+                        <thead>
+                            <tr className="bg-gray-100">
+                                <th className="border p-2">Title</th>
+                                <th className="border p-2">Description</th>
+                                <th className="border p-2">Scheduled On</th>
+                                <th className="border p-2">Status</th>
+                                <th className="border p-2">Patient</th>
+                                <th className="border p-2">Doctor</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {appointments.map(appointment => (
+                                <tr key={appointment.id}>
+                                    <td className="border p-2">{appointment.title}</td>
+                                    <td className="border p-2">{appointment.description}</td>
+                                    <td className="border p-2">{new Date(appointment.scheduledOn).toLocaleDateString()}</td>
+                                    <td className="border p-2">{appointment.statusId == 1 ? "Scheduled" : appointment.statusId == 2 ? "Completed" : "Cancelled"}</td>
+                                    <td className="border p-2">{appointment?.patient?.name}</td>
+                                    <td className="border p-2">{appointment?.doctor?.name}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </>
     )
