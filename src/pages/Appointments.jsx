@@ -52,8 +52,8 @@ function Appointments() {
                                 <td className="border p-2">{appointment.description}</td>
                                 <td className="border p-2">{new Date(appointment.scheduledOn).toLocaleDateString()}</td>
                                 <td className="border p-2">{appointment.statusId == 1 ? "Scheduled" : appointment.statusId == 2 ? "Completed" : "Cancelled"}</td>
-                                <td className="border p-2">{appointment.patient.name}</td>
-                                <td className="border p-2">{appointment.doctor.name}</td>
+                                <td className="border p-2">{appointment?.patient?.name}</td>
+                                <td className="border p-2">{appointment?.doctor?.name}</td>
                             </tr>
                         ))}
                     </tbody>
