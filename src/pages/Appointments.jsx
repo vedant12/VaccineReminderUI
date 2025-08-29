@@ -7,10 +7,15 @@ function Appointments() {
     const navigate = useNavigate();
     const [appointments, setAppointments] = useState([]);
     const [alert, setAlert] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        api.get("/appointments").then(res => setAppointments(res.data));
+        api.get("/appointments")
+            .then(res => setAppointments(res.data))
+            .finally(() => setLoading(false));
+
         localStorage.setItem('test', 'test');
+
         if (localStorage.getItem('newAppointment')) {
             setAlert(true);
             localStorage.removeItem('newAppointment');
@@ -47,16 +52,22 @@ function Appointments() {
                             </tr>
                         </thead>
                         <tbody>
-                            {appointments.map(appointment => (
-                                <tr key={appointment.id}>
-                                    <td className="border p-2">{appointment.title}</td>
-                                    <td className="border p-2">{appointment.description}</td>
-                                    <td className="border p-2">{new Date(appointment.scheduledOn).toLocaleDateString()}</td>
-                                    <td className="border p-2">{appointment.statusId == 1 ? "Scheduled" : appointment.statusId == 2 ? "Completed" : "Cancelled"}</td>
-                                    <td className="border p-2">{appointment?.patient?.name}</td>
-                                    <td className="border p-2">{appointment?.doctor?.name}</td>
+                            {loading ? (
+                                <tr>
+                                    <td colSpan="6" className="border p-2 text-center">Loading...</td>
                                 </tr>
-                            ))}
+                            ) : (
+                                appointments.map(appointment => (
+                                    <tr key={appointment.id}>
+                                        <td className="border p-2">{appointment.title}</td>
+                                        <td className="border p-2">{appointment.description}</td>
+                                        <td className="border p-2">{new Date(appointment.scheduledOn).toLocaleDateString()}</td>
+                                        <td className="border p-2">{appointment.statusId == 1 ? "Scheduled" : appointment.statusId == 2 ? "Completed" : "Cancelled"}</td>
+                                        <td className="border p-2">{appointment?.patient?.name}</td>
+                                        <td className="border p-2">{appointment?.doctor?.name}</td>
+                                    </tr>
+                                ))
+                            )}
                         </tbody>
                     </table>
                 </div>

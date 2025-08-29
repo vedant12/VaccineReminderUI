@@ -3,9 +3,9 @@ import api from '../api/axios';
 
 function Appointments() {
     const [users, setUsers] = useState([]);
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        api.get("/users").then(res => setUsers(res.data));
+        api.get("/users").then(res => setUsers(res.data)).finally(() => setLoading(false));
     }, []);
 
     return (
@@ -23,14 +23,21 @@ function Appointments() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(user => (
-                            <tr key={user.id}>
-                                <td className="border p-2">{user.name}</td>
-                                <td className="border p-2">{user.email}</td>
-                                <td className="border p-2">{user.role.roleName}</td>
-                                <td className="border p-2">{new Date(user.createdOn).toLocaleDateString()}</td>
+                        {loading ? (
+                            <tr>
+                                <td colSpan="4" className="border p-2 text-center">Loading...</td>
                             </tr>
-                        ))}
+                        ) : (
+                            users.map(user => (
+                                <tr key={user.id}>
+                                    <td className="border p-2">{user.name}</td>
+                                    <td className="border p-2">{user.email}</td>
+                                    <td className="border p-2">{user.role.roleName}</td>
+                                    <td className="border p-2">{new Date(user.createdOn).toLocaleDateString()}</td>
+                                </tr>
+                            ))
+                        )}
+
                     </tbody>
                 </table>
             </div>
