@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Appointments from "./pages/Appointments";
 import Users from "./pages/Users";
 import AddAppointments from "./pages/AddAppointments";
+import AddUser from "./pages/AddUser";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Appointments />} />
         <Route path="/users" element={<Users />} />
         <Route path="/addappointment" element={<AddAppointments />} />
+        <Route path="/adduser" element={<AddUser />} />
         {/* Add Users, Roles, Status pages here */}
       </Routes>
     </BrowserRouter>

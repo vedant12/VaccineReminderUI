@@ -3,7 +3,7 @@ import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 function AddAppointments() {
-    
+
     const [formData, setFormData] = useState({
         title: "",
         description: "",
@@ -35,9 +35,8 @@ function AddAppointments() {
         console.log("Form Data:", formData);
         // send to API with axios.post("/appointments", formData)
         api.post("/appointments", formData)
-            .then(res => {
-                alert("Appointment added successfully!");
-                localStorage.setItem('newAppointment', JSON.stringify(res.data));                          
+            .then(res => {                
+                localStorage.setItem('newAppointment', JSON.stringify(res.data));
                 navigate('/'); // Navigate back to appointments list
             })
             .catch(err => console.error("Error adding appointment:", err));

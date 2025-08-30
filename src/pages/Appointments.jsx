@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 import Alert from '../components/Alert';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
+
 function Appointments() {
 
     const navigate = useNavigate();
@@ -9,15 +12,35 @@ function Appointments() {
     const [alert, setAlert] = useState(false);
     const [loading, setLoading] = useState(true);
 
+    const handleDelete = (appointment) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: `You are deleting appointment ${appointment.title} for patient ${appointment?.patient?.name}!`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#30d630ff",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                api.delete(`/users/?appointmentId=${appointment.id}`)
+                    .then(() => {
+                        toast.success("Appointment deleted successfully!");
+                        setAppointments(appointments.filter(u => u.id !== appointment.id));
+                    })
+                    .catch(err => console.error("Error deleting user:", err));
+            }
+        });
+    }
+
     useEffect(() => {
         api.get("/appointments")
             .then(res => setAppointments(res.data))
             .finally(() => setLoading(false));
 
-        localStorage.setItem('test', 'test');
-
         if (localStorage.getItem('newAppointment')) {
             setAlert(true);
+            toast.success("Appointment added successfully!");
             localStorage.removeItem('newAppointment');
         }
     }, []);
@@ -49,6 +72,7 @@ function Appointments() {
                                 <th className="border p-2">Status</th>
                                 <th className="border p-2">Patient</th>
                                 <th className="border p-2">Doctor</th>
+                                <th className="border p-2">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,6 +89,18 @@ function Appointments() {
                                         <td className="border p-2">{appointment.statusId == 1 ? "Scheduled" : appointment.statusId == 2 ? "Completed" : "Cancelled"}</td>
                                         <td className="border p-2">{appointment?.patient?.name}</td>
                                         <td className="border p-2">{appointment?.doctor?.name}</td>
+                                        <td className="border p-2 justify-center flex">
+                                            <button
+                                                onClick={() => navigate(`/editUser/${appointment.id}`)}
+                                                className="bg-green-500 text-white px-2 py-1 rounded mr-2">
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(appointment)}
+                                                className="bg-red-500 text-white px-2 py-1 rounded">
+                                                Delete
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))
                             )}
