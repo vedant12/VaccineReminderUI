@@ -12,15 +12,25 @@ function AddAppointments() {
 
     const [doctors, setDoctors] = useState([]);
     const [patients, setPatients] = useState([]);
+    const [visitTypes, setVisitTypes] = useState([]);
+
     const navigate = useNavigate();
 
     useEffect(() => {
-        api.get("/users") // 👉 update API if you have /doctors endpoint
+        api.get("/users")
             .then(res => {
                 const doctorsList = res.data.filter(u => u.role?.roleName === "Doctor");
                 const patientsList = res.data.filter(u => u.role?.roleName === "Patient");
                 setDoctors(doctorsList);
                 setPatients(patientsList);
+            })
+            .catch(err => console.error("Error fetching doctors:", err));
+
+            // set visit types
+            api.get("/visittypes")
+            .then(res => {
+                console.log(res);
+                setVisitTypes(res.data);
             })
             .catch(err => console.error("Error fetching doctors:", err));
     }, []);
@@ -83,6 +93,19 @@ function AddAppointments() {
                 {patients.map(patient => (
                     <option key={patient.id} value={patient.id}>
                         {patient.name}
+                    </option>
+                ))}
+            </select>
+
+            <select
+                name="visitTypeId"
+                value={formData.visitTypeId}
+                onChange={handleChange}
+                className="border p-2 w-full">
+                <option value="">-- Select Visit Type --</option>
+                {visitTypes.map(visitType => (
+                    <option key={visitType.id} value={visitType.id}>
+                        {visitType.name}
                     </option>
                 ))}
             </select>

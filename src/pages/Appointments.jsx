@@ -23,7 +23,7 @@ function Appointments() {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                api.delete(`/users/?appointmentId=${appointment.id}`)
+                api.delete(`/appointments/${appointment.id}`)
                     .then(() => {
                         toast.success("Appointment deleted successfully!");
                         setAppointments(appointments.filter(u => u.id !== appointment.id));
@@ -78,7 +78,11 @@ function Appointments() {
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan="6" className="border p-2 text-center">Loading...</td>
+                                    <td colSpan="7" className="border p-2 text-center">Loading...</td>
+                                </tr>
+                            ) : appointments.length == 0 ? (
+                                <tr>
+                                    <td colSpan="7" className="border p-2 text-center">No Data Found</td>
                                 </tr>
                             ) : (
                                 appointments.map(appointment => (
