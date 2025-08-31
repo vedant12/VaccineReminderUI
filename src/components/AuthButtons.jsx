@@ -11,14 +11,14 @@ export default function AuthButtons() {
   return authState.isAuthenticated ? (
     <button
       onClick={logout}
-      className="ml-auto px-4 py-2 bg-red-500 text-white rounded cursor-pointer hover:bg-blue-700"
+      className="ml-max px-4 py-2 bg-red-500 text-white rounded cursor-pointer hover:bg-blue-700"
     >
       Logout
     </button>
   ) : (
     <button
       onClick={login}
-      className="ml-auto px-4 py-2 bg-green-500 text-white rounded cursor-pointer hover:bg-blue-700"
+      className="ml-max px-4 py-2 bg-green-500 text-white rounded cursor-pointer hover:bg-blue-700"
     >
       Login
     </button>
