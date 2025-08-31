@@ -3,27 +3,76 @@ import Appointments from "./pages/Appointments";
 import Users from "./pages/Users";
 import AddAppointments from "./pages/AddAppointments";
 import AddUser from "./pages/AddUser";
+import HomePage from "./pages/HomePage";
 import VisitTypes from "./pages/VisitTypes";
+import { Security, LoginCallback } from "@okta/okta-react";
+import { OktaAuth } from "@okta/okta-auth-js";
+import oktaConfig from "../oktaConfig";
+import { useNavigate } from "react-router-dom";
+import NavBar from "./pages/NavBar";
+import ProtectedRoutes from "../ProtectedRoutes";
+import Footer from "./components/Footer";
+
+const oktaAuth = new OktaAuth(oktaConfig);
 
 function App() {
+
+  const navigate = useNavigate();
+
+  const restoreOriginalUri = async (_oktaAuth, originalUri) => {
+    navigate(originalUri || '/');
+  };
+
   return (
-    <BrowserRouter>
-      <nav className="p-4 bg-blue-500 text-white flex gap-4">
-        <Link to="/">Appointments</Link>
-        <Link to="/users">Users</Link>
-        <Link to="/roles">Roles</Link>
-        <Link to="/status">Status</Link>
-        <Link to="/visittypes">Visit Types</Link>
-      </nav>
-      <Routes>
-        <Route path="/" element={<Appointments />} />
-        <Route path="/users" element={<Users />} />
-        <Route path="/addappointment" element={<AddAppointments />} />
-        <Route path="/adduser" element={<AddUser />} />
-        <Route path="/visittypes" element={<VisitTypes />} />
-        {/* Add Users, Roles, Status pages here */}
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Security oktaAuth={oktaAuth} restoreOriginalUri={restoreOriginalUri}>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/appointments" element={
+            <ProtectedRoutes>
+              <Appointments />
+            </ProtectedRoutes>}
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoutes>
+                <Users />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/addappointment"
+            element={
+              <ProtectedRoutes>
+                <AddAppointments />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/adduser"
+            element={
+              <ProtectedRoutes>
+                <AddUser />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/visittypes"
+            element={
+              <ProtectedRoutes>
+                <VisitTypes />
+              </ProtectedRoutes>
+            }
+          />
+          {/* Okta login callback route */}
+          <Route path="/login/callback" element={<LoginCallback />} />
+        </Routes>
+      </Security>
+
+      <Footer />
+    </>
   );
 }
 
