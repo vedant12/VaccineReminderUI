@@ -17,20 +17,26 @@ function AddAppointments() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        api.get("/users")
+        api.get("/patients")
             .then(res => {
-                const doctorsList = res.data.filter(u => u.role?.roleName === "Doctor");
-                const patientsList = res.data.filter(u => u.role?.roleName === "Patient");
-                setDoctors(doctorsList);
-                setPatients(patientsList);
+                console.log(res);
+                setPatients(res.data);
             })
-            .catch(err => console.error("Error fetching doctors:", err));
+            .catch(err => console.error("Error fetching patients:", err));
 
-            // set visit types
-            api.get("/visittypes")
+        // set visit types
+        api.get("/visittypes")
             .then(res => {
                 console.log(res);
                 setVisitTypes(res.data);
+            })
+            .catch(err => console.error("Error fetching visittypes:", err));
+
+        // set doctors
+        api.get("/doctors")
+            .then(res => {
+                console.log(res);
+                setDoctors(res.data);
             })
             .catch(err => console.error("Error fetching doctors:", err));
     }, []);
@@ -45,7 +51,7 @@ function AddAppointments() {
         console.log("Form Data:", formData);
         // send to API with axios.post("/appointments", formData)
         api.post("/appointments", formData)
-            .then(res => {                
+            .then(res => {
                 localStorage.setItem('newAppointment', JSON.stringify(res.data));
                 navigate('/'); // Navigate back to appointments list
             })
