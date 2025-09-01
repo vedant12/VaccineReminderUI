@@ -21,7 +21,7 @@ function VisitTypes() {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                api.delete(`/visittypes/?id=${visitType.id}`)
+                api.delete(`/visittypes/${visitType.id}`)
                     .then(() => {
                         toast.success("Visit Type deleted successfully!");
                         setVisitTypes(visitTypes.filter(u => u.id !== visitType.id));

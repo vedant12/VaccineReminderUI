@@ -36,8 +36,11 @@ function Appointments() {
     useEffect(() => {
         api.get("/appointments")
             .then(res => setAppointments(res.data))
-            .finally(() => setLoading(false));
+            .finally(() => setLoading(false))
+            .catch(err => console.error("Error fetching appointments:", err));
 
+        console.log(appointments)
+        
         if (localStorage.getItem('newAppointment')) {
             setAlert(true);
             toast.success("Appointment added successfully!");
@@ -93,15 +96,15 @@ function Appointments() {
                                         <td className="border p-2">{appointment.statusId == 1 ? "Scheduled" : appointment.statusId == 2 ? "Completed" : "Cancelled"}</td>
                                         <td className="border p-2">{appointment?.patient?.name}</td>
                                         <td className="border p-2">{appointment?.doctor?.name}</td>
-                                        <td className="border p-2 justify-center flex">
+                                        <td className="border p-2 text-center">
                                             <button
                                                 onClick={() => navigate(`/editUser/${appointment.id}`)}
-                                                className="bg-green-500 text-white px-2 py-1 rounded mr-2">
+                                                className="bg-green-500 text-white px-2 py-1 rounded m-2">
                                                 Edit
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(appointment)}
-                                                className="bg-red-500 text-white px-2 py-1 rounded">
+                                                className="bg-red-500 text-white px-2 py-1 m-2 rounded">
                                                 Delete
                                             </button>
                                         </td>
