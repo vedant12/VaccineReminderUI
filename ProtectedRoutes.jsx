@@ -10,7 +10,7 @@ function ProtectedRoutes({ children }) {
         return <div>Loading...</div>;
     }
 
-    if (authState.isAuthenticated) {
+    if (!authState.isAuthenticated) {
         // Redirect to login page, preserve the route they tried to access
         return <Navigate to="/" state={{ from: location }} replace />;
     }
