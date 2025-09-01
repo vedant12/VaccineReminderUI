@@ -36,7 +36,7 @@ export default function Navbar() {
             <div className="hidden md:flex gap-6">
               {navLinks.map(
                 (link) =>
-                  (link.alwaysShow || authState?.isAuthenticated) && (
+                  (link.alwaysShow || !authState?.isAuthenticated) && (
                     <Link
                       key={link.to}
                       to={link.to}

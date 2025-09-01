@@ -38,8 +38,6 @@ function Appointments() {
             .then(res => setAppointments(res.data))
             .finally(() => setLoading(false))
             .catch(err => console.error("Error fetching appointments:", err));
-
-        console.log(appointments)
         
         if (localStorage.getItem('newAppointment')) {
             setAlert(true);
