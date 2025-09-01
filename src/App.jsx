@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "./pages/NavBar";
 import ProtectedRoutes from "../ProtectedRoutes";
 import Footer from "./components/Footer";
+import AddVisitType from "./pages/AddVisitType";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -63,6 +64,14 @@ function App() {
             element={
               <ProtectedRoutes>
                 <VisitTypes />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/addvisittypes"
+            element={
+              <ProtectedRoutes>
+                <AddVisitType />
               </ProtectedRoutes>
             }
           />

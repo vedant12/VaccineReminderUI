@@ -21,7 +21,7 @@ function VisitTypes() {
             confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if (result.isConfirmed) {
-                api.delete(`/visittypes/?visitTypeId=${visitType.id}`)
+                api.delete(`/visittypes/?id=${visitType.id}`)
                     .then(() => {
                         toast.success("Visit Type deleted successfully!");
                         setVisitTypes(visitTypes.filter(u => u.id !== visitType.id));
@@ -46,7 +46,7 @@ function VisitTypes() {
         <>
             <div className='p-6'>
                 <button
-                    onClick={() => navigate("/addVisitType")}
+                    onClick={() => navigate("/addvisittypes")}
                     className='w-half rounded-lg bg-blue-500 px-3 py-2 text-sm/6 font-bold text-white float-right'
                 >
                     Add Visit Type
