@@ -13,6 +13,8 @@ import NavBar from "./pages/NavBar";
 import ProtectedRoutes from "../ProtectedRoutes";
 import Footer from "./components/Footer";
 import AddVisitType from "./pages/AddVisitType";
+import AddDoctor from "./pages/AddDoctor";
+import AddPatient from "./pages/AddPatient";
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
@@ -72,6 +74,22 @@ function App() {
             element={
               <ProtectedRoutes>
                 <AddVisitType />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/adddoctor"
+            element={
+              <ProtectedRoutes>
+                <AddDoctor />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/addpatient"
+            element={
+              <ProtectedRoutes>
+                <AddPatient />
               </ProtectedRoutes>
             }
           />
