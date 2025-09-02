@@ -8,6 +8,9 @@ function AddAppointments() {
         title: "",
         description: "",
         scheduledOn: "",
+        patientId:"",
+        doctorId:"",
+        visitTypeId:""
     });
 
     const [doctors, setDoctors] = useState([]);
@@ -53,7 +56,7 @@ function AddAppointments() {
         api.post("/appointments", formData)
             .then(res => {
                 localStorage.setItem('newAppointment', JSON.stringify(res.data));
-                navigate('/'); // Navigate back to appointments list
+                navigate('/appointments'); // Navigate back to appointments list
             })
             .catch(err => console.error("Error adding appointment:", err));
     };
@@ -91,7 +94,7 @@ function AddAppointments() {
             </select>
 
             <select
-                name="userId"
+                name="patientId"
                 value={formData.patientId}
                 onChange={handleChange}
                 className="border p-2 w-full">
